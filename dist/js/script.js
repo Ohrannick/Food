@@ -128,6 +128,65 @@ window.addEventListener("DOMContentLoaded", () => {
   });
   hideTabContent();
   showTabContent();
+  const deadLine = "2022-01-27";
+
+  const getTimingRemaining = endTime => {
+    const t = Date.parse(endTime) - Date.parse(new Date()),
+          days = Math.floor(t / (1000 * 60 * 60 * 24)),
+          hours = Math.floor(t / (1000 * 60 * 60) % 24) - 3,
+          minutes = Math.floor(t / (1000 * 60) % 60),
+          seconds = Math.floor(t / 1000 % 60);
+    return {
+      t,
+      days,
+      hours,
+      minutes,
+      seconds
+    };
+  };
+
+  const getZero = num => {
+    return num >= 0 && num < 10 ? `0${num}` : num;
+  };
+
+  const getMyMonths = num => {
+    switch (num) {
+      case 0:
+        return "января";
+        break;
+
+      case 1:
+        return "февраля";
+        break;
+
+      default:
+        return "...";
+    }
+  };
+
+  const setClock = (selector, textSelect, endTime) => {
+    const timer = document.querySelector(selector),
+          days = timer.querySelector("#days"),
+          hours = timer.querySelector("#hours"),
+          minutes = timer.querySelector("#minutes"),
+          seconds = timer.querySelector("#seconds"),
+          timeInterval = setInterval(updateClock, 1000),
+          texts = document.querySelector(textSelect),
+          text = texts.querySelector("#text");
+    updateClock();
+    text.innerHTML = `Акция закончится ${new Date(endTime).getDate()} ${getMyMonths(new Date(endTime).getMonth())} в 00:00`;
+
+    function updateClock() {
+      const t = getTimingRemaining(endTime);
+      days.innerHTML = getZero(t.days);
+      hours.innerHTML = getZero(t.hours);
+      minutes.innerHTML = getZero(t.minutes);
+      seconds.innerHTML = getZero(t.seconds);
+      if (t.t <= 0) clearInterval(timeInterval);
+    }
+  };
+
+  setClock(".timer", ".promotion__descr", deadLine);
 });
 
 /***/ })
