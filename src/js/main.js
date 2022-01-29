@@ -1,4 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
+  // Tabs
+
   const tabs = document.querySelectorAll(".tabheader__item"),
     tabsContent = document.querySelectorAll(".tabcontent"),
     tabsParent = document.querySelector(".tabheader__items");
@@ -35,7 +37,8 @@ window.addEventListener("DOMContentLoaded", () => {
   hideTabContent();
   showTabContent();
 
-  const deadLine = "2022-01-27";
+  // Timer
+  const deadLine = "2022-01-28";
 
   const getTimingRemaining = (endTime) => {
     const t = Date.parse(endTime) - Date.parse(new Date()),
@@ -54,21 +57,23 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   const getZero = (num) => {
-    return num >= 0 && num < 10 ? `0${num}` : num;
+    return num >= 0 && num < 10 ? `0${num}` : num < 0 ? "00" : num;
   };
 
-  const getMyMonths = (num) => {
-    switch (num) {
-      case 0:
-        return "января";
-        break;
-      case 1:
-        return "февраля";
-        break;
-      default:
-        return "...";
-    }
-  };
+  const months = [
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря",
+  ];
 
   const setClock = (selector, textSelect, endTime) => {
     const timer = document.querySelector(selector),
@@ -81,12 +86,14 @@ window.addEventListener("DOMContentLoaded", () => {
       text = texts.querySelector("#text");
 
     updateClock();
-    text.innerHTML = `Акция закончится ${new Date(
-      endTime
-    ).getDate()} ${getMyMonths(new Date(endTime).getMonth())} в 00:00`;
+
+    const t = getTimingRemaining(endTime);
+    text.innerHTML = `Акция закончи${t.t < 0 ? "лась" : "тся"} <span>
+    ${new Date(endTime).getDate()} 
+    ${months[new Date(endTime).getMonth()]}</span> в 00:00`;
 
     function updateClock() {
-      const t = getTimingRemaining(endTime);
+      let t = getTimingRemaining(endTime);
 
       days.innerHTML = getZero(t.days);
       hours.innerHTML = getZero(t.hours);
@@ -98,4 +105,53 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   setClock(".timer", ".promotion__descr", deadLine);
+
+  // Modal
+
+  const modalTrigger = document.querySelectorAll("[data-modal]"),
+    modal = document.querySelector(".modal"),
+    modalClose = document.querySelector("[data-close]");
+
+  function openModal() {
+    modal.classList.toggle("hide");
+    document.body.style.overflow = "hidden";
+    clearInterval(modalTimerId);
+  }
+
+  function closeModal() {
+    modal.classList.toggle("hide");
+    document.body.style.overflow = "";
+  }
+
+  modalTrigger.forEach((item) => {
+    item.addEventListener("click", openModal);
+  });
+
+  modalClose.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Escape" && !modal.classList.contains("hide")) {
+      closeModal();
+    }
+  });
+
+  const modalTimerId = setTimeout(openModal, 3000);
+
+  function showModalByScroll() {
+    if (
+      window.pageYOffset + document.documentElement.clientHeight >=
+      document.documentElement.scrollHeight
+    ) {
+      openModal();
+      window.removeEventListener("scroll", showModalByScroll);
+    }
+  }
+
+  window.addEventListener("scroll", showModalByScroll);
 });
