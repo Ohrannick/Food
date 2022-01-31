@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
   showTabContent();
 
   // Timer
-  const deadLine = "2022-01-31";
+  const deadLine = "2022-02-02";
 
   const getTimingRemaining = (endTime) => {
     const t = Date.parse(endTime) - Date.parse(new Date()),
@@ -156,7 +156,6 @@ window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", showModalByScroll);
 
   // Create menu_item
-
   class CreateMenuItem {
     constructor(src, alt, subtitle, descr, price, parentSelector, ...classes) {
       this.src = src;
@@ -223,4 +222,56 @@ window.addEventListener("DOMContentLoaded", () => {
     21,
     ".menu .container"
   ).render();
+
+  // Forms
+
+  const forms = document.querySelectorAll("form");
+  const message = {
+    loading: "Loading...",
+    success: "Success",
+    failure: "Failure...",
+  };
+
+  forms.forEach((form) => {
+    postData(form);
+  });
+
+  function postData(form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const statusMessage = document.createElement("div");
+      statusMessage.classList.add("status");
+      statusMessage.textContent = message.loading;
+      form.append(statusMessage);
+
+      const req = new XMLHttpRequest();
+      req.open("POST", "server.php");
+
+      req.setRequestHeader("Content-Type", "application/json");
+      const formData = new FormData(form);
+
+      const object = {};
+      formData.forEach((value, key) => {
+        object[key] = value;
+      });
+
+      const json = JSON.stringify(object);
+
+      req.send(json);
+
+      req.addEventListener("load", () => {
+        if (req.status === 200) {
+          console.log(req.response);
+          statusMessage.textContent = message.success;
+          form.reset();
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 2000);
+        } else {
+          statusMessage.textContent = message.failure;
+        }
+      });
+    });
+  }
 });
