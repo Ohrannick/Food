@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
   showTabContent();
 
   // Timer
-  const deadLine = "2022-02-02";
+  const deadLine = "2022-04-26";
 
   const getTimingRemaining = (endTime) => {
     const t = Date.parse(endTime) - Date.parse(new Date()),
@@ -155,7 +155,7 @@ window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", showModalByScroll);
 
   // Create menu_item
-  class CreateMenuItem {
+  class CreateCards {
     constructor(src, alt, subtitle, descr, price, parentSelector, ...classes) {
       this.src = src;
       this.alt = alt;
@@ -163,7 +163,7 @@ window.addEventListener("DOMContentLoaded", () => {
       this.descr = descr;
       this.price = price;
       this.classes = classes;
-      this.transfer = 75;
+      this.transfer = 76;
       this.parent = document.querySelector(parentSelector);
       this.changeUSARUB();
     }
@@ -191,36 +191,48 @@ window.addEventListener("DOMContentLoaded", () => {
         <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
       </div>
       `;
-      this.parent.append(element);
+      // this.parent.append(element);
+      this.parent.insertAdjacentElement("afterbegin", element);
     }
   }
 
-  new CreateMenuItem(
-    "img/tabs/vegy.jpg",
-    "vegy",
-    'Меню "Фитнес"',
-    'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-    9,
-    ".menu .container"
-  ).render();
+  const getResourse = async (url) => {
+    const res = await fetch(url);
 
-  new CreateMenuItem(
-    "img/tabs/elite.jpg",
-    "elite",
-    "Меню “Премиум”",
-    "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-    14,
-    ".menu .container"
-  ).render();
+    if (!res.ok) {
+      throw new Error(`Coud not fetch ${url}, status: ${res.status}`);
+    }
 
-  new CreateMenuItem(
-    "img/tabs/post.jpg",
-    "elite",
-    'Меню "Постное"',
-    "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-    21,
-    ".menu .container"
-  ).render();
+    return await res.json();
+  };
+
+  // getResourse("http://localhost:3000/menu")
+  // .then((data) => {
+  //   data.forEach(({ img, altimg, title, descr, price }) => {
+  //     new CreateCards(
+  //       img,
+  //       altimg,
+  //       title,
+  //       descr,
+  //       price,
+  //       ".menu .container"
+  //     ).render();
+  //   });
+  // });
+
+
+  axios.get("http://localhost:3000/menu").then((data) => {
+    data.data.forEach(({ img, altimg, title, descr, price }) => {
+      new CreateCards(
+        img,
+        altimg,
+        title,
+        descr,
+        price,
+        ".menu .container"
+      ).render();
+    });
+  });
 
   // Forms
 
@@ -232,10 +244,22 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   forms.forEach((form) => {
-    postData(form);
+    bindPostData(form);
   });
 
-  function postData(form) {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    });
+
+    return await res.json();
+  };
+
+  function bindPostData(form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -249,19 +273,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
       const formData = new FormData(form);
 
-      const object = {};
-      formData.forEach((value, key) => {
-        object[key] = value;
-      });
+      const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-      fetch("server.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(object),
-      })
-        .then((data) => data.text())
+      postData("http://localhost:3000/requests", json)
         .then((data) => {
           console.log(data);
           showThanksModal(message.success);
