@@ -3,7 +3,7 @@ function forms() {
 
   const forms = document.querySelectorAll("form");
   const message = {
-    loading: "img/form/spinner.svg",
+    loading: "../../src/img/form/spinner.svg",
     success: "Success",
     failure: "Failure...",
   };

@@ -322,7 +322,7 @@ function forms() {
 
   const forms = document.querySelectorAll("form");
   const message = {
-    loading: "img/form/spinner.svg",
+    loading: "../../src/img/form/spinner.svg",
     success: "Success",
     failure: "Failure...",
   };
@@ -489,6 +489,10 @@ function slider() {
   let slideIndex = 1;
   let offset = 0;
 
+  const getZero = (num) => {
+    return num >= 0 && num < 10 ? `0${num}` : num < 0 ? "00" : num;
+  };
+
   total.textContent = getZero(slides.length);
 
   slidesField.style.width = 100 * slides.length + "%";
@@ -652,7 +656,7 @@ module.exports = tabs;
 
 function timer() {
   // Timer
-  const deadLine = "2022-04-26";
+  const deadLine = "2022-06-02";
 
   const getTimingRemaining = (endTime) => {
     const t = Date.parse(endTime) - Date.parse(new Date()),

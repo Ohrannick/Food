@@ -15,6 +15,10 @@ function slider() {
   let slideIndex = 1;
   let offset = 0;
 
+  const getZero = (num) => {
+    return num >= 0 && num < 10 ? `0${num}` : num < 0 ? "00" : num;
+  };
+
   total.textContent = getZero(slides.length);
 
   slidesField.style.width = 100 * slides.length + "%";
