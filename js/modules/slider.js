@@ -1,23 +1,30 @@
-function slider() {
+import { getZero } from "../services/services";
+
+function slider({
+  container,
+  slide,
+  nextArrow,
+  prevArrow,
+  totalCounter,
+  currentCounter,
+  wrapper,
+  field,
+}) {
   // ======= slider =========
 
-  const slides = document.querySelectorAll(".offer__slide"),
-    slider = document.querySelector(".offer__slider"),
-    current = document.querySelector("#current"),
-    total = document.querySelector("#total"),
-    arrows = document.querySelector(".offer__slider-counter"),
-    prev = document.querySelector(".offer__slider-prev"),
-    next = document.querySelector(".offer__slider-next"),
-    slidesWrapper = document.querySelector(".offer__slider-wrapper"),
-    slidesField = document.querySelector(".offer__slider-wrapper_inner"),
+  const slides = document.querySelectorAll(slide),
+    slider = document.querySelector(container),
+    current = document.querySelector(currentCounter),
+    total = document.querySelector(totalCounter),
+    // arrows = document.querySelector(".offer__slider-counter"),
+    prev = document.querySelector(prevArrow),
+    next = document.querySelector(nextArrow),
+    slidesWrapper = document.querySelector(wrapper),
+    slidesField = document.querySelector(field),
     width = window.getComputedStyle(slidesWrapper).width;
 
   let slideIndex = 1;
   let offset = 0;
-
-  const getZero = (num) => {
-    return num >= 0 && num < 10 ? `0${num}` : num < 0 ? "00" : num;
-  };
 
   total.textContent = getZero(slides.length);
 
@@ -116,4 +123,4 @@ function slider() {
   // });
 }
 
-module.exports = slider;
+export default slider;

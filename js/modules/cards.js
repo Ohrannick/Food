@@ -1,4 +1,4 @@
-function cards() {
+function cards(url) {
   // Create menu_item
   class CreateCards {
     constructor(src, alt, subtitle, descr, price, parentSelector, ...classes) {
@@ -65,7 +65,7 @@ function cards() {
   //   });
   // });
 
-  axios.get("http://localhost:3000/menu").then((data) => {
+  axios.get(url).then((data) => {
     data.data.forEach(({ img, altimg, title, descr, price }) => {
       new CreateCards(
         img,
@@ -79,4 +79,4 @@ function cards() {
   });
 }
 
-module.exports = cards;
+export default cards;

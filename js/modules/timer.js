@@ -1,6 +1,7 @@
-function timer() {
+import { getZero } from "../services/services";
+
+function timer(selector, textSelect, endTime) {
   // Timer
-  const deadLine = "2022-06-02";
 
   const getTimingRemaining = (endTime) => {
     const t = Date.parse(endTime) - Date.parse(new Date()),
@@ -16,10 +17,6 @@ function timer() {
       minutes,
       seconds,
     };
-  };
-
-  const getZero = (num) => {
-    return num >= 0 && num < 10 ? `0${num}` : num < 0 ? "00" : num;
   };
 
   const months = [
@@ -66,7 +63,7 @@ function timer() {
     }
   };
 
-  setClock(".timer", ".promotion__descr", deadLine);
+  setClock(selector, textSelect, endTime);
 }
 
-module.exports = timer;
+export default timer;
