@@ -18,10 +18,10 @@ function cards(url) {
     }
 
     render() {
-      const element = document.createElement("div");
+      const element = document.createElement('div');
 
       if (this.classes.length === 0) {
-        this.classes = "menu__item";
+        this.classes = 'menu__item';
         element.classList.add(this.classes);
       } else {
         this.classes.forEach((className) => element.classList.add(className));
@@ -37,7 +37,7 @@ function cards(url) {
       </div>
       `;
       // this.parent.append(element);
-      this.parent.insertAdjacentElement("afterbegin", element);
+      this.parent.insertAdjacentElement('afterbegin', element);
     }
   }
 
@@ -73,7 +73,7 @@ function cards(url) {
         title,
         descr,
         price,
-        ".menu .container"
+        '.menu .container'
       ).render();
     });
   });

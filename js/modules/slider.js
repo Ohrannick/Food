@@ -1,4 +1,4 @@
-import { getZero } from "../services/services";
+import { getZero } from '../services/services';
 
 function slider({
   container,
@@ -28,23 +28,23 @@ function slider({
 
   total.textContent = getZero(slides.length);
 
-  slidesField.style.width = 100 * slides.length + "%";
+  slidesField.style.width = 100 * slides.length + '%';
   slides.forEach((slide) => {
     slide.style.width = width;
   });
 
-  slider.style.position = "relative";
+  slider.style.position = 'relative';
 
-  const indicators = document.createElement("ol"),
+  const indicators = document.createElement('ol'),
     dots = [];
-  indicators.classList.add("carousel-indicators");
+  indicators.classList.add('carousel-indicators');
   slider.append(indicators);
 
   for (let i = 0; i < slides.length; i++) {
-    const dot = document.createElement("li");
-    dot.setAttribute("data-slide-to", i + 1);
-    dot.classList.add("dot");
-    dot.style.opacity = i === 0 ? 1 : "";
+    const dot = document.createElement('li');
+    dot.setAttribute('data-slide-to', i + 1);
+    dot.classList.add('dot');
+    dot.style.opacity = i === 0 ? 1 : '';
     indicators.append(dot);
     dots.push(dot);
   }
@@ -52,15 +52,15 @@ function slider({
   const getMovieOpacity = (offset, el, num) => {
     current.textContent = getZero(+num);
     slidesField.style.transform = `translateX(-${offset}px)`;
-    el.forEach((dot) => (dot.style.opacity = "0.5"));
-    el[num - 1].style.opacity = "1";
+    el.forEach((dot) => (dot.style.opacity = '0.5'));
+    el[num - 1].style.opacity = '1';
   };
 
   const deleteNotDigits = (str) => {
-    return +str.replace(/\D/g, "");
+    return +str.replace(/\D/g, '');
   };
 
-  next.addEventListener("click", () => {
+  next.addEventListener('click', () => {
     if (offset == deleteNotDigits(width) * (slides.length - 1)) {
       offset = 0;
       slideIndex = 1;
@@ -71,7 +71,7 @@ function slider({
     getMovieOpacity(offset, dots, slideIndex);
   });
 
-  prev.addEventListener("click", () => {
+  prev.addEventListener('click', () => {
     if (offset == 0) {
       offset = deleteNotDigits(width) * (slides.length - 1);
       slideIndex = +slides.length;
@@ -83,8 +83,8 @@ function slider({
   });
 
   dots.forEach((dot) => {
-    dot.addEventListener("click", (e) => {
-      const slideTo = e.target.getAttribute("data-slide-to");
+    dot.addEventListener('click', (e) => {
+      const slideTo = e.target.getAttribute('data-slide-to');
       slideIndex = slideTo;
       offset = deleteNotDigits(width) * (slideTo - 1);
       getMovieOpacity(offset, dots, slideIndex);

@@ -19,14 +19,14 @@
     }
   }
   #gender:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     display: block;
     width: 16px;
     height: 16px;
-    background: url("../icons/switch.svg") center (center / cover) no-repeat;
+    background: url('../icons/switch.svg') center (center / cover) no-repeat;
   }
   &__choose {
     position: relative;

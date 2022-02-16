@@ -1,14 +1,14 @@
-import { postData } from "../services/services";
-import { closeModal, openModal } from "./modal";
+import { postData } from '../services/services';
+import { closeModal, openModal } from './modal';
 
 function forms(formSelector, modalSelector, modalTimerId, url) {
   // Forms
 
   const forms = document.querySelectorAll(formSelector);
   const message = {
-    loading: "./src/img/form/spinner.svg",
-    success: "Success",
-    failure: "Failure...",
+    loading: './src/img/form/spinner.svg',
+    success: 'Success',
+    failure: 'Failure...',
   };
 
   forms.forEach((form) => {
@@ -16,16 +16,16 @@ function forms(formSelector, modalSelector, modalTimerId, url) {
   });
 
   function bindPostData(form) {
-    form.addEventListener("submit", (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const statusMessage = document.createElement("img");
+      const statusMessage = document.createElement('img');
       statusMessage.src = message.loading;
       statusMessage.style.cssText = `
         display: block;
         margin: 0 auto;
       `;
-      form.insertAdjacentElement("afterend", statusMessage);
+      form.insertAdjacentElement('afterend', statusMessage);
 
       const formData = new FormData(form);
 
@@ -48,10 +48,10 @@ function forms(formSelector, modalSelector, modalTimerId, url) {
 
   function showThanksModal(message) {
     const prevModalDialog = document.querySelector(modalSelector);
-    prevModalDialog.classList.add("hide");
-    openModal(".modal", modalTimerId);
+    prevModalDialog.classList.add('hide');
+    openModal('.modal', modalTimerId);
 
-    const thanksModal = document.createElement("div");
+    const thanksModal = document.createElement('div');
     thanksModal.classList.add(modalSelector.slice(1));
     thanksModal.innerHTML = `
     <div class="modal__content">
@@ -60,12 +60,12 @@ function forms(formSelector, modalSelector, modalTimerId, url) {
     </div>
     `;
 
-    document.querySelector(".modal").append(thanksModal);
+    document.querySelector('.modal').append(thanksModal);
     setTimeout(() => {
       thanksModal.remove();
-      prevModalDialog.classList.add("show");
-      prevModalDialog.classList.remove("hide");
-      closeModal(".modal");
+      prevModalDialog.classList.add('show');
+      prevModalDialog.classList.remove('hide');
+      closeModal('.modal');
     }, 2000);
   }
 }

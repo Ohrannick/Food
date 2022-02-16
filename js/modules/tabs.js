@@ -12,8 +12,8 @@ function tabs(
 
   const hideTabContent = () => {
     tabsContent.forEach((item) => {
-      item.classList.add("hide");
-      item.classList.remove("show", "fade");
+      item.classList.add('hide');
+      item.classList.remove('show', 'fade');
     });
 
     tabs.forEach((item) => {
@@ -22,12 +22,12 @@ function tabs(
   };
 
   const showTabContent = (i = 0) => {
-    tabsContent[i].classList.add("show", "fade");
-    tabsContent[i].classList.remove("hide");
+    tabsContent[i].classList.add('show', 'fade');
+    tabsContent[i].classList.remove('hide');
     tabs[i].classList.add(activeClass);
   };
 
-  tabsParent.addEventListener("click", (event) => {
+  tabsParent.addEventListener('click', (event) => {
     const target = event.target;
     if (target && target.classList.contains(tabsSelector.slice(1))) {
       tabs.forEach((item, i) => {

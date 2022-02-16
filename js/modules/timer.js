@@ -1,4 +1,4 @@
-import { getZero } from "../services/services";
+import { getZero } from '../services/services';
 
 function timer(selector, textSelect, endTime) {
   // Timer
@@ -20,34 +20,34 @@ function timer(selector, textSelect, endTime) {
   };
 
   const months = [
-    "января",
-    "февраля",
-    "марта",
-    "апреля",
-    "мая",
-    "июня",
-    "июля",
-    "августа",
-    "сентября",
-    "октября",
-    "ноября",
-    "декабря",
+    'января',
+    'февраля',
+    'марта',
+    'апреля',
+    'мая',
+    'июня',
+    'июля',
+    'августа',
+    'сентября',
+    'октября',
+    'ноября',
+    'декабря',
   ];
 
   const setClock = (selector, textSelect, endTime) => {
     const timer = document.querySelector(selector),
-      days = timer.querySelector("#days"),
-      hours = timer.querySelector("#hours"),
-      minutes = timer.querySelector("#minutes"),
-      seconds = timer.querySelector("#seconds"),
+      days = timer.querySelector('#days'),
+      hours = timer.querySelector('#hours'),
+      minutes = timer.querySelector('#minutes'),
+      seconds = timer.querySelector('#seconds'),
       timeInterval = setInterval(updateClock, 1000),
       texts = document.querySelector(textSelect),
-      text = texts.querySelector("#text");
+      text = texts.querySelector('#text');
 
     updateClock();
 
     const t = getTimingRemaining(endTime);
-    text.innerHTML = `Акция закончи${t.t < 0 ? "лась" : "тся"} <span>
+    text.innerHTML = `Акция закончи${t.t < 0 ? 'лась' : 'тся'} <span>
     ${new Date(endTime).getDate()} 
     ${months[new Date(endTime).getMonth()]}</span> в 00:00`;
 
